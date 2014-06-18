@@ -1,0 +1,33 @@
+{
+    "name": "anh/paginator-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony integration for anh/paginator library",
+    "keywords": [
+        "pager", "paginator", "pagination", "paging"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrew Hilobok",
+            "email": "hilobok@gmail.com"
+        }
+    ],
+
+    "require": {
+    },
+
+    "minimum-stability": "stable",
+
+    "autoload": {
+        "psr-4": {
+            "Anh\\PaginatorBundle\\": ""
+        }
+    },
+
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    }
+}
+
