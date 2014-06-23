@@ -1,0 +1,82 @@
+parameters:
+    anh_paginator.adapter_resolver.class: Anh\Paginator\AdapterResolver
+    anh_paginator.page_factory.class: Anh\Paginator\PageFactory
+    anh_paginator.page.class: Anh\Paginator\Page
+    anh_paginator.paginator.class: Anh\Paginator\Paginator
+    anh_paginator.view.simple.class: Anh\PaginatorBundle\PaginatorView\SimplePaginatorView
+    anh_paginator.view.hidden.class: Anh\PaginatorBundle\PaginatorView\HiddenPaginatorView
+    anh_paginator.view.adaptive.class: Anh\PaginatorBundle\PaginatorView\AdaptivePaginatorView
+    anh_paginator.view_resolver.class: Anh\PaginatorBundle\PaginatorViewResolver
+    anh_paginator.view_renderer.class: Anh\PaginatorBundle\PaginatorViewRenderer
+    anh_paginator.event_listener.current_url_listener.class: Anh\PaginatorBundle\EventListener\CurrentUrlListener
+    anh_paginator.twig.paginator_extension.class: Anh\PaginatorBundle\Twig\PaginatorExtension
+    anh_paginator.assetic.loader.class: Anh\PaginatorBundle\Assetic\AsseticLoader
+    anh_paginator.assetic.resource.class: Anh\PaginatorBundle\Assetic\AsseticResource
+
+services:
+    anh_paginator.adapter_resolver:
+        class: %anh_paginator.adapter_resolver.class%
+
+    anh_paginator.page_factory:
+        class: %anh_paginator.page_factory.class%
+        arguments:
+            - %anh_paginator.page.class%
+
+    anh_paginator.paginator:
+        class: %anh_paginator.paginator.class%
+        arguments:
+            - @anh_paginator.adapter_resolver
+            - @anh_paginator.page_factory
+
+    anh_paginator.view.simple:
+        class: %anh_paginator.view.simple.class%
+        tags:
+            - { name: anh_paginator.view, alias: simple }
+
+    anh_paginator.view.hidden:
+        class: %anh_paginator.view.hidden.class%
+        tags:
+            - { name: anh_paginator.view, alias: hidden }
+
+    anh_paginator.view.adaptive:
+        class: %anh_paginator.view.adaptive.class%
+        tags:
+            - { name: anh_paginator.view, alias: adaptive }
+
+    anh_paginator.view_resolver:
+        class: %anh_paginator.view_resolver.class%
+
+    anh_paginator.view_renderer:
+        class: %anh_paginator.view_renderer.class%
+        arguments:
+            - @anh_paginator.view_resolver
+            - %anh_paginator.default_view%
+
+    anh_paginator.event_listener.current_url_listener:
+        class: %anh_paginator.event_listener.current_url_listener.class%
+        arguments:
+            - @router
+            - @anh_paginator.view_renderer
+            - %anh_paginator.page_number_route_parameter%
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+
+    anh_paginator.twig.paginator_extension:
+        class: %anh_paginator.twig.paginator_extension.class%
+        arguments:
+            - @anh_paginator.view_renderer
+        tags:
+            - { name: twig.extension }
+
+    anh_paginator.assetic.loader:
+        class: %anh_paginator.assetic.loader.class%
+        tags:
+            - { name: assetic.formula_loader, alias: anh_paginator }
+
+    anh_paginator.assetic.resource:
+        class: %anh_paginator.assetic.resource.class%
+        arguments:
+            - @anh_paginator.view_resolver
+            - %anh_paginator.default_view%
+        tags:
+            - { name: assetic.formula_resource, loader: anh_paginator }

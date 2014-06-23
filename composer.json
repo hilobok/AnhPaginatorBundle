@@ -14,6 +14,10 @@
     ],
 
     "require": {
+        "php": ">=5.4",
+        "anh/paginator": "0.2.*",
+        "symfony/framework-bundle": "~2.5",
+        "symfony/assetic-bundle": "~2.3"
     },
 
     "minimum-stability": "stable",
