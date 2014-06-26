@@ -2,9 +2,6 @@
 
 namespace Anh\PaginatorBundle\PaginatorView;
 
-use Anh\Paginator\View\AbstractView;
-use Anh\PaginatorBundle\PaginatorViewInterface;
-
 trait PaginatorViewTrait
 {
     protected $css;
